@@ -1,0 +1,86 @@
+package co.edu.eam.disenosoftware.tienda.repositorios
+
+import co.edu.eam.disenosoftware.tienda.modelos.Category
+import co.edu.eam.disenosoftware.tienda.modelos.Product
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.transaction.annotation.Transactional
+import javax.persistence.EntityManager
+
+@SpringBootTest
+@Transactional
+
+class ProductRepositoryTest {
+    @Autowired
+    lateinit var productRepository: ProductRepository
+
+    @Autowired
+    lateinit var entityManager: EntityManager
+
+    @Test
+    fun testCreateProduct() {
+        val category = Category(1,"categoria_uno")
+        entityManager.persist(category)
+
+        productRepository.create(Product(1,"jugo","nestle",category))
+
+        val product = entityManager.find(Product::class.java,  1)
+        Assertions.assertNotNull(product)
+        Assertions.assertEquals(1, product.id)
+        Assertions.assertEquals("jugo", product.name)
+        Assertions.assertEquals("nestle", product.branch)
+        Assertions.assertEquals("categoria_uno", product.category.name)
+    }
+
+    @Test
+    fun testDelete(){
+        val category = Category(1,"categoria_uno")
+        entityManager.persist(category)
+
+        entityManager.persist(Product(1,"jugo","nestle",category))
+
+        productRepository.delete(1)
+
+        val product = entityManager.find(Product::class.java, 1)
+        Assertions.assertNull(product)
+    }
+
+    @Test
+    fun findTest() {
+        val category = Category(1,"categoria_uno")
+        entityManager.persist(category)
+
+        entityManager.persist(Product(1,"jugo","nestle",category))
+
+        val product = productRepository.find(1)
+
+        Assertions.assertNotNull(product)
+        Assertions.assertEquals("jugo", product?.name)
+    }
+
+    @Test
+    fun testUpdate() {
+        val category = Category(1,"categoria_uno")
+        entityManager.persist(category)
+
+        entityManager.persist(Product(1,"jugo","nestle",category))
+
+        entityManager.flush()
+
+        val product = entityManager.find(Product::class.java, 1)
+        product.name = "leche"
+        product.branch = "alqueria"
+        product.category.name = "categoria_dos"
+
+        entityManager.clear()
+
+        productRepository.update(product)
+
+        val productToAssert = entityManager.find(Product::class.java, 1)
+        Assertions.assertEquals("leche", productToAssert.name)
+        Assertions.assertEquals("alqueria", productToAssert.branch)
+        Assertions.assertEquals("categoria_dos", productToAssert.category.name)
+    }
+}
