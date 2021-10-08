@@ -22,6 +22,10 @@ class ProductRepository {
         return em.find(Product::class.java, id)
     }
 
+    fun find_name(name: String): Product?{
+        return em.find(Product::class.java, name)
+    }
+
     fun listNames(id: Long):List<String>{
         return listOf(em.find(Product::class.java,id).name)
     }
