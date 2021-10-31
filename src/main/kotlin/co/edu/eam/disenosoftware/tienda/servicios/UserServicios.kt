@@ -1,7 +1,7 @@
 package co.edu.eam.disenosoftware.tienda.servicios
 
-import co.edu.eam.disenosoftware.tienda.excetions.BusinessException
-import co.edu.eam.disenosoftware.tienda.modelos.User
+import co.edu.eam.disenosoftware.tienda.exceptions.BusinessException
+import co.edu.eam.disenosoftware.tienda.modelos.Entities.User
 import co.edu.eam.disenosoftware.tienda.repositorios.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

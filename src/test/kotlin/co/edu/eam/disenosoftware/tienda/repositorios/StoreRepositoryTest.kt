@@ -1,7 +1,7 @@
 package co.edu.eam.disenosoftware.tienda.repositorios
 
-import co.edu.eam.disenosoftware.tienda.modelos.City
-import co.edu.eam.disenosoftware.tienda.modelos.Store
+import co.edu.eam.disenosoftware.tienda.modelos.Entities.City
+import co.edu.eam.disenosoftware.tienda.modelos.Entities.Store
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -82,5 +82,27 @@ class StoreRepositoryTest {
         Assertions.assertEquals("C/ Granada n 9", storeToAssert.address)
         Assertions.assertEquals("Weling", storeToAssert.name)
         Assertions.assertEquals("Cali", storeToAssert.city.name)
+    }
+
+    @Test
+    fun listStoreTest(){
+        val city= City(15L,"Armenia")
+        entityManager.persist(city)
+        val storeOne=Store("1","Cra 15","Tienda mascotas",city)
+        val storeTwo=Store("2","Cra 16","Tienda helados",city)
+        val storeThree= Store("3","Cra 18","Tienda videojuegos",city)
+        entityManager.persist(storeOne)
+        entityManager.persist(storeTwo)
+        entityManager.persist(storeThree)
+
+        val list= storeRepository.listStore()
+
+        Assertions.assertEquals(3,list.size)
+        Assertions.assertEquals("Tienda mascotas",list[0].name)
+        Assertions.assertEquals("Cra 15",list[0].address)
+        Assertions.assertEquals("Tienda helados",list[1].name)
+        Assertions.assertEquals("Cra 16",list[1].address)
+        Assertions.assertEquals("Tienda videojuegos",list[2].name)
+        Assertions.assertEquals("Cra 18",list[2].address)
     }
 }

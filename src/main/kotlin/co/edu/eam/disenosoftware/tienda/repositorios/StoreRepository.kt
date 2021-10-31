@@ -1,6 +1,6 @@
 package co.edu.eam.disenosoftware.tienda.repositorios
 
-import co.edu.eam.disenosoftware.tienda.modelos.Store
+import co.edu.eam.disenosoftware.tienda.modelos.Entities.Store
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -32,5 +32,9 @@ class StoreRepository {
         }
     }
 
+    fun listStore():List<Store>{
+        val query= em.createQuery("SELECT store FROM Store store")
+        return query.resultList as List<Store>
+    }
 
 }

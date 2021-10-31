@@ -1,3 +1,3 @@
-package co.edu.eam.disenosoftware.tienda.excetions
+package co.edu.eam.disenosoftware.tienda.exceptions
 
 class BusinessException(message : String): RuntimeException(message)

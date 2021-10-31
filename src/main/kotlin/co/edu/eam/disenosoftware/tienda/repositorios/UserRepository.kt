@@ -1,7 +1,7 @@
 package co.edu.eam.disenosoftware.tienda.repositorios
 
 
-import co.edu.eam.disenosoftware.tienda.modelos.User
+import co.edu.eam.disenosoftware.tienda.modelos.Entities.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional

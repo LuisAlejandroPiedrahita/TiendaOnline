@@ -1,4 +1,4 @@
-package co.edu.eam.disenosoftware.tienda.modelos
+package co.edu.eam.disenosoftware.tienda.modelos.Entities
 
 import java.io.Serializable
 import javax.persistence.*

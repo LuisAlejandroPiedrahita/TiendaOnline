@@ -1,6 +1,6 @@
 package co.edu.eam.disenosoftware.tienda.repositorios
 
-import co.edu.eam.disenosoftware.tienda.modelos.Category
+import co.edu.eam.disenosoftware.tienda.modelos.Entities.Category
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,30 +20,30 @@ class CategoryRepositoryTest {
 
     @Test
     fun testCreateCategory() {
+        categoryRepository.create(Category(1L,"categoria_uno"))
 
-        categoryRepository.create(Category(1,"categoria_uno"))
-
-        val category = entityManager.find(Category::class.java,  1)
+        val category = entityManager.find(Category::class.java,  1L)
         Assertions.assertNotNull(category)
-        Assertions.assertEquals(1, category.id)
+        Assertions.assertEquals(1L, category.id)
         Assertions.assertEquals("categoria_uno", category.name)
     }
 
     @Test
     fun testDelete(){
-        entityManager.persist(Category(1,"categoria_uno"))
+        entityManager.persist(Category(1L,"categoria_uno"))
 
-        categoryRepository.delete(1)
+        categoryRepository.delete(1L)
 
         val category = entityManager.find(Category::class.java, 1)
         Assertions.assertNull(category)
     }
 
+
     @Test
     fun findTest() {
-        entityManager.persist(Category(1,"categoria_uno"))
+        entityManager.persist(Category(1L,"categoria_uno"))
 
-        val category = categoryRepository.find(1)
+        val category = categoryRepository.find(1L)
 
         Assertions.assertNotNull(category)
         Assertions.assertEquals("categoria_uno", category?.name)
@@ -51,18 +51,18 @@ class CategoryRepositoryTest {
 
     @Test
     fun testUpdate() {
-        entityManager.persist(Category(1,"categoria_uno"))
+        entityManager.persist(Category(1L, "categoria_uno"))
 
         entityManager.flush()
 
-        val category = entityManager.find(Category::class.java, 1)
+        val category = entityManager.find(Category::class.java, 1L)
         category.name = "categoria_dos"
 
         entityManager.clear()
 
         categoryRepository.update(category)
 
-        val categoryToAssert = entityManager.find(Category::class.java, 1)
+        val categoryToAssert = entityManager.find(Category::class.java, 1L)
         Assertions.assertEquals("categoria_dos", categoryToAssert.name)
     }
 }

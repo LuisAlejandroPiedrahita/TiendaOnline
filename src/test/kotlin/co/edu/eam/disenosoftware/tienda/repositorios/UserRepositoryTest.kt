@@ -1,7 +1,7 @@
 package co.edu.eam.disenosoftware.tienda.repositorios
 
-import co.edu.eam.disenosoftware.tienda.modelos.City
-import co.edu.eam.disenosoftware.tienda.modelos.User
+import co.edu.eam.disenosoftware.tienda.modelos.Entities.City
+import co.edu.eam.disenosoftware.tienda.modelos.Entities.User
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
