@@ -26,10 +26,12 @@ class StoreServiciosTest {
         val city = City(1L,"Armenia")
         entityManager.persist(city)
 
-        entityManager.persist(Store("1","C/Juan n 5","Waxis",city))
+        entityManager.persist(Store(1L,"C/Juan n 5","Waxis",city))
+
+        val newStore= Store(1L,"C/Juan n 5","Waxis",null)
 
         try{
-            storeServicios.createStore(Store("1","C/Juan n 5","Waxis",city))
+            storeServicios.createStore(newStore,1L)
             Assertions.fail()
         } catch (e: BusinessException){
             Assertions.assertEquals("This Store already exists", e.message)
@@ -40,9 +42,9 @@ class StoreServiciosTest {
     fun createStoreHappyPathTest(){
         val city = City(1L,"Armenia")
         entityManager.persist(city)
-        entityManager.persist(Store("1","C/Juan n 5","Waxis",city))
+        entityManager.persist(Store(1L,"C/Juan n 5","Waxis",city))
 
-        val storeAssert = entityManager.find(Store::class.java,16L)
+        val storeAssert = entityManager.find(Store::class.java,1L)
         Assertions.assertNotNull(storeAssert)
 
         Assertions.assertEquals("C/Juan n 5",storeAssert.address)
@@ -53,29 +55,29 @@ class StoreServiciosTest {
     fun editStoreNotExistTest(){
         val city = City(1L,"Armenia")
         entityManager.persist(city)
-        val store = Store("1","C/Juan n 5","Waxis",city)
+        val store = Store(1L,"C/Juan n 5","Waxis",city)
 
         try {
-            storeServicios.editStore(store)
+            storeServicios.editStore(store, 1L)
             Assertions.fail()
 
         }catch (e: BusinessException) {
             Assertions.assertEquals("This store does not exist", e.message)
         }
-
     }
 
     @Test
     fun testStoreEdit(){
         val city = City(1L,"Armenia")
         entityManager.persist(city)
-        entityManager.persist(Store("1","C/Juan n 5","Waxis",city))
+        entityManager.persist(Store(1L,"C/Juan n 5","Waxis",city))
 
-        val storeUpdate= (Store("2","Cra 17","Tienda videojuegos",city))
-        storeServicios.editStore(storeUpdate)
+        val storeUpdate = (Store(2L,"Cra 17","Tienda videojuegos",city))
+        storeServicios.editStore(storeUpdate,2L)
 
-        val storeUpdateAssert= entityManager.find(Store::class.java,"1")
+        val storeUpdateAssert= entityManager.find(Store::class.java,2L)
         Assertions.assertEquals("Cra 17",storeUpdateAssert.address)
         Assertions.assertEquals("Tienda videojuegos",storeUpdateAssert.name)
     }
+
 }

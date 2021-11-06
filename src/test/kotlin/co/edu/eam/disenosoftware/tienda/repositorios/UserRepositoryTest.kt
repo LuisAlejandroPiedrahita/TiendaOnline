@@ -22,7 +22,7 @@ class UserRepositoryTest {
 
     @Test
     fun testCreateUser() {
-        val city = City(1,"Armenia")
+        val city = City(1L,"Armenia")
         entityManager.persist(city)
 
         userRepository.create(User("1","C/ Luna n 8","Alejo","Gomez",city))
@@ -33,7 +33,7 @@ class UserRepositoryTest {
         Assertions.assertEquals("C/ Luna n 8", user.address)
         Assertions.assertEquals("Alejo", user.name)
         Assertions.assertEquals("Gomez", user.lastName)
-        Assertions.assertEquals("Armenia", user.city.name)
+        Assertions.assertEquals("Armenia", user.city?.name)
     }
 
     @Test
@@ -51,7 +51,7 @@ class UserRepositoryTest {
 
     @Test
     fun findTest() {
-        val city = City(1,"Armenia")
+        val city = City(1L,"Armenia")
         entityManager.persist(city)
 
         entityManager.persist(User("1","C/ Luna n 8","Alejo","Gomez",city))
@@ -60,6 +60,9 @@ class UserRepositoryTest {
 
         Assertions.assertNotNull(user)
         Assertions.assertEquals("Alejo", user?.name)
+        Assertions.assertEquals("Gomez", user?.lastName)
+        Assertions.assertEquals("C/Luna n 8", user?.address)
+        Assertions.assertEquals("Armenia", user?.city?.name)
     }
 
     @Test
@@ -75,7 +78,6 @@ class UserRepositoryTest {
         user.name = "Luis"
         user.lastName = "Piedrahita"
         user.address = "C/ Zoe n7"
-        user.city.name = "Cali"
 
         entityManager.clear()
 
@@ -85,6 +87,5 @@ class UserRepositoryTest {
         Assertions.assertEquals("Luis", userToAssert.name)
         Assertions.assertEquals("Piedrahita", userToAssert.lastName)
         Assertions.assertEquals("C/ Zoe n7", userToAssert.address)
-        Assertions.assertEquals("Cali", userToAssert.city.name)
     }
 }

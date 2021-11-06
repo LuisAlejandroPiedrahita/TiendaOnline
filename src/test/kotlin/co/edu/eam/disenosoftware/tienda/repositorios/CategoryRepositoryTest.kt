@@ -12,6 +12,7 @@ import javax.persistence.EntityManager
 @Transactional
 
 class CategoryRepositoryTest {
+
     @Autowired
     lateinit var categoryRepository: CategoryRepository
 
@@ -34,7 +35,7 @@ class CategoryRepositoryTest {
 
         categoryRepository.delete(1L)
 
-        val category = entityManager.find(Category::class.java, 1)
+        val category = entityManager.find(Category::class.java, 1L)
         Assertions.assertNull(category)
     }
 

@@ -18,7 +18,6 @@ class CityRepository {
         em.persist(city)
     }
 
-
     fun find(id: Long): City?{
         return em.find(City::class.java, id)
     }

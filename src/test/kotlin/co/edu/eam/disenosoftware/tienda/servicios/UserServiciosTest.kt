@@ -27,8 +27,10 @@ class UserServiciosTest {
 
         entityManager.persist(User("1","C/ Luna n 8","Alejo","Gomez",city))
 
+        val nuevoUser = User("1","C/ Luna n 8","Alejo","Gomez",city)
+
         try{
-            userServicios.createUser(User("1","C/ Luna n 8","Alejo","Gomez",city))
+            userServicios.createUser(nuevoUser,1L)
             Assertions.fail()
         } catch (e:BusinessException){
             Assertions.assertEquals("This User already exists", e.message)
@@ -58,13 +60,12 @@ class UserServiciosTest {
         val user = User("1","C/ Luna n 8","Alejo","Gomez",city)
 
         try {
-            userServicios.editUser(user)
+            userServicios.editUser(user,"1")
             Assertions.fail()
 
         }catch (e: BusinessException) {
             Assertions.assertEquals("This user does not exist", e.message)
         }
-
     }
 
     @Test
@@ -75,10 +76,11 @@ class UserServiciosTest {
         entityManager.persist(User("1","C/ Luna n 8","Alejo","Gomez",city))
 
         val userUpdate= User("1","Cra 22","Julian","Beltran",city)
-        userServicios.editUser(userUpdate)
+        userServicios.editUser(userUpdate,"1")
 
         val userUpdateAssert= entityManager.find(User::class.java,"1")
         Assertions.assertEquals("Julian",userUpdateAssert.name)
         Assertions.assertEquals("Beltran",userUpdateAssert.lastName)
     }
+
 }

@@ -9,6 +9,7 @@ import javax.persistence.EntityManager
 @Component
 @Transactional
 class StoreRepository {
+
     @Autowired
     lateinit var em: EntityManager
 
@@ -16,8 +17,7 @@ class StoreRepository {
         em.persist(store)
     }
 
-
-    fun find(id: String): Store?{
+    fun find(id: Long?): Store?{
         return em.find(Store::class.java, id)
     }
 
@@ -25,7 +25,7 @@ class StoreRepository {
         em.merge(store)
     }
 
-    fun delete(id: String) {
+    fun delete(id: Long) {
         val store = find(id)
         if (store!=null) {
             em.remove(store)
@@ -33,8 +33,7 @@ class StoreRepository {
     }
 
     fun listStore():List<Store>{
-        val query= em.createQuery("SELECT store FROM Store store")
+        val query = em.createQuery("SELECT store FROM Store store")
         return query.resultList as List<Store>
     }
-
 }

@@ -10,6 +10,7 @@ import javax.persistence.EntityManager
 @Component
 @Transactional
 class UserRepository {
+
     @Autowired
     lateinit var em: EntityManager
 
@@ -17,8 +18,7 @@ class UserRepository {
         em.persist(user)
     }
 
-
-    fun find(id: String): User?{
+    fun find(id: String?): User?{
         return em.find(User::class.java, id)
     }
 

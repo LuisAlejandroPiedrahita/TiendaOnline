@@ -7,9 +7,10 @@ import javax.persistence.*
 @Entity
 @Table(name = "tbl_tienda")
 data class Store(
+
     @Id
     @Column(name = "id_tienda")
-    val id: String,
+    var id: Long?,
 
     @Column(name = "direccion")
     var address: String,
@@ -19,5 +20,6 @@ data class Store(
 
     @ManyToOne
     @JoinColumn(name="id_ciudad")
-    val city: City
+    var city: City?,
+
 ) : Serializable

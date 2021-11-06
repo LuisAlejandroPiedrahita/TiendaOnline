@@ -17,19 +17,17 @@ class ProductRepository {
         em.persist(product)
     }
 
-
-    fun find(id: Long): Product?{
+    fun find(id: String?): Product?{
         return em.find(Product::class.java, id)
     }
-
 
     fun update(product: Product) {
         em.merge(product)
     }
 
-    fun delete(id: Long) {
+    fun delete(id: String) {
         val product = find(id)
-        if (product!=null) {
+        if (product != null) {
             em.remove(product)
         }
     }
