@@ -1,7 +1,7 @@
 package co.edu.eam.disenosoftware.tienda.repositorios
 
-import co.edu.eam.disenosoftware.tienda.modelos.Category
-import co.edu.eam.disenosoftware.tienda.modelos.Product
+import co.edu.eam.disenosoftware.tienda.modelos.Entities.Category
+import co.edu.eam.disenosoftware.tienda.modelos.Entities.Product
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,14 +21,14 @@ class ProductRepositoryTest {
 
     @Test
     fun testCreateProduct() {
-        val category = Category(1,"categoria_uno")
+        val category = Category(1L,"categoria_uno")
         entityManager.persist(category)
 
-        productRepository.create(Product(1,"jugo","nestle",category))
+        productRepository.create(Product("1","jugo","nestle",category))
 
-        val product = entityManager.find(Product::class.java,  1)
+        val product = entityManager.find(Product::class.java,  "1")
         Assertions.assertNotNull(product)
-        Assertions.assertEquals(1, product.id)
+        Assertions.assertEquals("1", product.id)
         Assertions.assertEquals("jugo", product.name)
         Assertions.assertEquals("nestle", product.branch)
         Assertions.assertEquals("categoria_uno", product.category.name)
@@ -36,14 +36,14 @@ class ProductRepositoryTest {
 
     @Test
     fun testDelete(){
-        val category = Category(1,"categoria_uno")
+        val category = Category(1L,"categoria_uno")
         entityManager.persist(category)
 
-        entityManager.persist(Product(1,"jugo","nestle",category))
+        entityManager.persist(Product("1","jugo","nestle",category))
 
-        productRepository.delete(1)
+        productRepository.delete("1")
 
-        val product = entityManager.find(Product::class.java, 1)
+        val product = entityManager.find(Product::class.java, "1")
         Assertions.assertNull(product)
     }
 
@@ -52,24 +52,27 @@ class ProductRepositoryTest {
         val category = Category(1,"categoria_uno")
         entityManager.persist(category)
 
-        entityManager.persist(Product(1,"jugo","nestle",category))
+        entityManager.persist(Product("1","jugo","nestle",category))
 
-        val product = productRepository.find(1)
+        val product = productRepository.find("1")
 
         Assertions.assertNotNull(product)
         Assertions.assertEquals("jugo", product?.name)
+        Assertions.assertEquals("nestle",product?.branch)
+        Assertions.assertEquals("1",product?.category?.id)
+        Assertions.assertEquals("categoria_uno",product?.category?.name)
     }
 
     @Test
     fun testUpdate() {
-        val category = Category(1,"categoria_uno")
+        val category = Category(1L,"categoria_uno")
         entityManager.persist(category)
 
-        entityManager.persist(Product(1,"jugo","nestle",category))
+        entityManager.persist(Product("1","jugo","nestle",category))
 
         entityManager.flush()
 
-        val product = entityManager.find(Product::class.java, 1)
+        val product = entityManager.find(Product::class.java, "1")
         product.name = "leche"
         product.branch = "alqueria"
         product.category.name = "categoria_dos"
@@ -78,9 +81,25 @@ class ProductRepositoryTest {
 
         productRepository.update(product)
 
-        val productToAssert = entityManager.find(Product::class.java, 1)
+        val productToAssert = entityManager.find(Product::class.java, "1")
         Assertions.assertEquals("leche", productToAssert.name)
         Assertions.assertEquals("alqueria", productToAssert.branch)
         Assertions.assertEquals("categoria_dos", productToAssert.category.name)
     }
+
+    @Test
+    fun findByName(){
+        val category = Category(1L,"categoria_uno")
+        entityManager.persist(category)
+        entityManager.persist(Product("1","jugo","nestle",category))
+
+        val product= productRepository.findByName("jugo")
+
+        Assertions.assertNotNull(product)
+        Assertions.assertEquals("jugo",product?.name)
+        Assertions.assertEquals("nestle",product?.branch)
+        Assertions.assertEquals("1",product?.category?.id)
+        Assertions.assertEquals("categoria_uno",product?.category?.name)
+    }
+
 }

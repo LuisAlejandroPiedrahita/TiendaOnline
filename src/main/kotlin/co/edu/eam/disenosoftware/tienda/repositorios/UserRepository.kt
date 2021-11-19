@@ -1,7 +1,7 @@
 package co.edu.eam.disenosoftware.tienda.repositorios
 
 
-import co.edu.eam.disenosoftware.tienda.modelos.User
+import co.edu.eam.disenosoftware.tienda.modelos.Entities.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -10,6 +10,7 @@ import javax.persistence.EntityManager
 @Component
 @Transactional
 class UserRepository {
+
     @Autowired
     lateinit var em: EntityManager
 
@@ -17,8 +18,7 @@ class UserRepository {
         em.persist(user)
     }
 
-
-    fun find(id: String): User?{
+    fun find(id: String?): User?{
         return em.find(User::class.java, id)
     }
 

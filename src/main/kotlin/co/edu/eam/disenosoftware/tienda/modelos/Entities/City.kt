@@ -1,4 +1,4 @@
-package co.edu.eam.disenosoftware.tienda.modelos
+package co.edu.eam.disenosoftware.tienda.modelos.Entities
 
 import java.io.Serializable
 import javax.persistence.Column
@@ -9,10 +9,12 @@ import javax.persistence.Table
 @Entity
 @Table(name = "tbl_ciudades")
 data class City(
+
     @Id
     @Column(name = "id_ciudad")
     val id: Long,
 
     @Column(name = "nombre")
     var name: String,
+
 ) : Serializable

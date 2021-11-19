@@ -1,6 +1,7 @@
 package co.edu.eam.disenosoftware.tienda.repositorios
 
-import co.edu.eam.disenosoftware.tienda.modelos.ProductStore
+import co.edu.eam.disenosoftware.tienda.modelos.Entities.Product
+import co.edu.eam.disenosoftware.tienda.modelos.Entities.ProductStore
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -9,13 +10,13 @@ import javax.persistence.EntityManager
 @Component
 @Transactional
 class ProductStoreRepository {
+
     @Autowired
     lateinit var em: EntityManager
 
     fun create(productStore: ProductStore){
         em.persist(productStore)
     }
-
 
     fun find(id: Long): ProductStore?{
         return em.find(ProductStore::class.java, id)
@@ -32,10 +33,16 @@ class ProductStoreRepository {
         }
     }
 
-    fun findByProduct(id: Long):List<ProductStore>{
-        val query= em.createQuery("SELECT pro FROM ProductStore pro WHERE pro.id_producto =: id")
-        query.setParameter("id", id)
+    fun findByStore(id: Long?):List<Product>{
+        val query = em.createQuery("SELECT ProductStore.product FROM ProductStore ProductStore WHERE ProductStore.store.id =:idStore")
+        query.setParameter("idStore",id)
+        return query.resultList as List<Product>
+    }
 
-        return query.resultList as List<ProductStore>
+    fun findByStoreAndByCategory(id: Long, idCategory:Long):List<Product>{
+        val query= em.createQuery("SELECT ProductStore.product FROM ProductStore ProductStore WHERE ProductStore.store.id =:idStore and ProductStore.product.category.id =:idCategory")
+        query.setParameter("idStore",id)
+        query.setParameter("idCategory",idCategory)
+        return query.resultList as List<Product>
     }
 }

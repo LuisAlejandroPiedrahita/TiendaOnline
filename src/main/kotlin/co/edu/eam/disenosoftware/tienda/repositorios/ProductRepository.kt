@@ -1,6 +1,6 @@
 package co.edu.eam.disenosoftware.tienda.repositorios
 
-import co.edu.eam.disenosoftware.tienda.modelos.Product
+import co.edu.eam.disenosoftware.tienda.modelos.Entities.Product
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -17,24 +17,29 @@ class ProductRepository {
         em.persist(product)
     }
 
-
-    fun find(id: Long): Product?{
+    fun find(id: String?): Product?{
         return em.find(Product::class.java, id)
-    }
-
-    fun listNames(id: Long):List<String>{
-        return listOf(em.find(Product::class.java,id).name)
     }
 
     fun update(product: Product) {
         em.merge(product)
     }
 
-    fun delete(id: Long) {
+    fun delete(id: String) {
         val product = find(id)
-        if (product!=null) {
+        if (product != null) {
             em.remove(product)
         }
+    }
+
+    fun findByName(name: String): Product? {
+        val query = em.createQuery("SELECT product FROM Product product WHERE product.name = :name")
+        query.setParameter("name", name)
+
+        val list = query.resultList as List<Product>
+
+        //asignacion condicional
+        return if (list.isEmpty()) null else list[0]
     }
 
 }

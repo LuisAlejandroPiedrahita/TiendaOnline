@@ -1,14 +1,16 @@
-package co.edu.eam.disenosoftware.tienda.modelos
+package co.edu.eam.disenosoftware.tienda.modelos.Entities
 
+import co.edu.eam.disenosoftware.tienda.modelos.Entities.City
 import java.io.Serializable
 import javax.persistence.*
 
 @Entity
 @Table(name = "tbl_usuarios")
 data class User(
+
     @Id
     @Column(name = "id_usuario")
-    val id: String,
+    var id: String?,
 
     @Column(name = "direccion")
     var address: String,
@@ -21,5 +23,6 @@ data class User(
 
     @ManyToOne
     @JoinColumn(name="id_ciudad")
-    val city: City
+    var city: City?,
+
 ) : Serializable

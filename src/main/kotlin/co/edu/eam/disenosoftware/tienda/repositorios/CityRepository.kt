@@ -1,7 +1,7 @@
 package co.edu.eam.disenosoftware.tienda.repositorios
 
 
-import co.edu.eam.disenosoftware.tienda.modelos.City
+import co.edu.eam.disenosoftware.tienda.modelos.Entities.City
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -18,7 +18,6 @@ class CityRepository {
         em.persist(city)
     }
 
-
     fun find(id: Long): City?{
         return em.find(City::class.java, id)
     }
@@ -29,7 +28,7 @@ class CityRepository {
 
     fun delete(id: Long) {
         val city = find(id)
-        if (city!=null) {
+        if (city != null) {
             em.remove(city)
         }
     }

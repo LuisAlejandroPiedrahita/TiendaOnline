@@ -1,4 +1,4 @@
-package co.edu.eam.disenosoftware.tienda.modelos
+package co.edu.eam.disenosoftware.tienda.modelos.Entities
 
 import java.io.Serializable
 import javax.persistence.*
@@ -6,9 +6,10 @@ import javax.persistence.*
 @Entity
 @Table(name = "tbl_products")
 data class Product(
+
     @Id
     @Column(name = "id_producto")
-    val id: Long,
+    var id: String?,
 
     @Column(name = "nombre")
     var name: String,
@@ -18,5 +19,6 @@ data class Product(
 
     @ManyToOne
     @JoinColumn(name="id_categoria")
-    val category: Category
+    var category: Category
+
 ) : Serializable
